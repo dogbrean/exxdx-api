@@ -3,14 +3,20 @@ spring:
     url: jdbc:postgresql://localhost:5432/exxdx
     username: exxdx
     password: exxdxpw
+    driver-class-name: org.postgresql.Driver
+
   jpa:
     hibernate:
-      ddl-auto: validate
-    open-in-view: false
+      ddl-auto: validate   # 엔티티와 테이블 불일치 시 에러로 알려줌 (생성/수정 X)
     properties:
-      hibernate.format_sql: true
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        # (선택) SQL 로그 보고 싶으면 아래 주석 해제
+        # format_sql: true
+        # show_sql: true
+
   flyway:
     enabled: true
-
-server:
-  port: 8080
+    locations: classpath:db/migration
+    # 기존에 운영 중인 DB에 도입할 때만 켜는 옵션 (빈 스키마면 불필요)
+    # baseline-on-migrate: true
